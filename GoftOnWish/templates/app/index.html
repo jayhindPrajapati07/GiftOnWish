@@ -1,0 +1,137 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block content %}
+<!-- home section starts  -->
+
+<section class="home" id="home">
+
+    <div class="image ">
+        <img class="home-image" src="{% static 'images/home-img.jpg' %}" alt="">
+    </div>
+
+    <div class="content">
+        <span class="italic">Yesterday is a history, Tomarrow is a mistry, But Today is a Gift ...</span>
+        <h3>So let's Celebrate every moment with a special Gift</h3>
+        <a href="#category" class="btn">get started</a>
+    </div>
+
+</section>
+
+<!-- home section ends -->
+
+<!-- banner section starts  -->
+
+<section class="banner-container">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>special offer</h3>
+            <p>upto 45% off</p>
+            <a href="#" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>limited offer</h3>
+            <p>upto 50% off</p>
+            <a href="#" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- banner section ends -->
+
+<!-- category section starts  -->
+
+<section class="category" id="category">
+
+    <h1 class="heading">shop by <span>category</span></h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>Birthday Special</h3>
+            <p>upto 50% off</p>
+            <a href="{% url 'category' %}Birthday"><img src="{% static 'images/category-1.jpg' %}" alt=""></a>
+            <a href="{% url 'category' %}Birthday" class="btn">shop now</a>
+        </div>
+        <div class="box">
+            <h3>Cakes</h3>
+            <p>upto 44% off</p>
+            <a href="{% url 'category' %}Cakes"><img src="{% static 'images/category-2.jpg' %}" alt=""></a>
+            <a href="{% url 'category' %}Cakes" class="btn">shop now</a>
+        </div>
+        <div class="box">
+            <h3>Flowers</h3>
+            <p>upto 35% off</p>
+            <a href="{% url 'category' %}Flowers"><img src="{% static 'images/category-3.jpg' %}" alt=""></a>
+            <a href="{% url 'category' %}Flowers" class="btn">shop now</a>
+        </div>
+        <div class="box">
+            <h3>Toys</h3>
+            <p>upto 12% off</p>
+            <a href="{% url 'category' %}Toys"><img src="{% static 'images/category-4.jpg' %}" alt=""></a>
+            <a href="{% url 'category' %}Toys" class="btn">shop now</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- product section starts  -->
+
+<section class="product" id="product">
+
+    <h1 class="heading">latest <span>products</span></h1>
+
+    <div class="box-container">
+        {% for product in products %}
+        <div class="box">
+            <span class="discount">-{{product.get_discount|floatformat:0}}%</span>
+            
+            <a href={% url 'products' %}{{product.id}}><img src={{product.imageUrl}} alt=""></a>
+            <h3>{{product.name}}</h3>
+            <div class="stars">
+                <h1>{{product.star}}<i class="fas fa-star"></i></h1>
+                <p class='star'></p>  
+            </div>
+            <div class="price"> ₹{{product.d_price|floatformat:2}} /{{product.unit}} <span> ₹{{product.o_price|floatformat:2}} /{{product.unit}}</span> </div>
+            <div class="quantity">
+                <span>quantity : </span>
+                <input type="number" min="1" max="1000" value="1" readonly>
+                
+            </div>
+            <a href="#" class="btn">add to cart</a>
+        </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+<!-- product section ends -->
+
+
+
+<!-- newsletter section starts  -->
+
+<section class="newsletter">
+
+    <h3>subscribe us for latest updates</h3>
+
+    <form action="">
+        <input class="box" type="email" placeholder="enter your email">
+        <input type="submit" value="subscribe" class="btn">
+    </form>
+
+</section>
+
+<!-- newsletter section ends -->
+
+
+{% endblock content %}

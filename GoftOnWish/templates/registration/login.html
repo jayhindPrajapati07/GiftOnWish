@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="{% static 'registration/login/style.css' %}">
+    <title>Login</title>
+</head>
+<body>
+
+    <form method="post"> 
+      {% csrf_token %}
+      <a href=""><img src="{% static 'images/logo1.png' %}" alt="logo" srcset=""></a>
+      <br>
+       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    
+        <div class="form-floating">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required autofocus>
+          <label for="floatingInput">Email</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+          <label for="floatingPassword">Password</label>
+        </div>
+    
+        {% for field in login_form %}
+          <p>
+            {% for error in field.errors %}
+              <p style="color:red">{{error}}</p>
+            {% endfor %}
+          </p>
+        {% endfor %}
+
+        {% if login_form.non_field_errors %}
+            <div style="color:red">
+              <p>{{login_form.non_field_errors|striptags}}</p>
+            </div>
+        {% endif %}
+        <button class="w-100 h-50 btn btn-lg " type="submit">Sign in</button>
+
+        <div class="link">
+          <li><a class="signup" href="{% url 'signup' %}">Sign Up</a></li>
+          <li><a class="forgot" href="#">Forgot Password?</a></li>
+
+        </div>
+
+        <p class="mt-1 mb-3 text-muted">&copy; 2022-2023</p>
+      </form>
+    
+</body>
+</html>

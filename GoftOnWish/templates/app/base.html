@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift-On-Wish</title>
+    <!-- Bootstrap cdn -->
+    
+    
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+
+</head>
+<body>
+    <!-- header section starts  -->
+
+<header>
+
+
+    <div class="header-2">
+
+        <div id="menu-bar" class="fas fa-bars "></div>
+
+        <a href="{% url 'index' %}" class="logo"><img class="brand" src="{% static 'images/logo1.png' %}" alt="logo" ></a>
+
+        <nav class="navbar">
+        
+            <a href="{% url 'index' %}">home</a>
+            <a href="{% url 'category' %}">category</a>
+            <a href="{% url 'products' %}">product</a>
+            <a href="{% url 'contact' %}">contact</a>
+            <a href="{% url 'about' %}">about</a>
+        </nav>
+
+        {% if request.user.is_authenticated %}
+            <div class="icons">
+                <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+                <a href="{% url 'profile' %}" class="fas fa-user-circle"></a>
+                <a href={% url 'logout' %} class="fa-solid fa-right-from-bracket"></a>
+            </div>
+        {% else %}
+            <div>
+                <a href={% url 'login' %} class="btn">Login</a>
+            </div>
+        {% endif %}
+
+    </div>
+
+</header>
+
+<!-- header section ends -->
+{% block content %}
+{% endblock content %}
+
+<!--Footer starts here-->
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <a href="#" ><img class="logo1" src="{% static 'images/logo1.png' %}" alt="logo" ></a>
+            <p>A gift shop Destination to all kind of gifts.</p>
+            <div class="share">
+                <a href="#" class="btn fab fa-facebook-f"></a>
+                <a href="#" class="btn fab fa-twitter"></a>
+                <a href="#" class="btn fab fa-instagram"></a>
+                <a href="#" class="btn fab fa-linkedin"></a>
+            </div>
+        </div>
+        
+        <div class="box">
+            <h3>our location</h3>
+            <div class="links">
+                <a href="#">india</a>
+                <a href="#">USA</a>
+                <a href="#">france</a>
+                <a href="#">japan</a>
+                <a href="#">russia</a>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>quick links</h3>
+            <div class="links">
+                <a href="{% url 'index' %}">home</a>
+                <a href="{% url 'category' %}">category</a>
+                <a href="{% url 'products' %}">product</a>
+                <a href="{% url 'about' %}">about</a>
+                <a href="{% url 'contact' %}">contact</a>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="credit"> created & Designed by <strong> Jayhind Prajapati</strong> | all rights reserved! </div>
+    <div class="copy">Copyright &copy 2022-2023</div>
+
+</section>
+
+<!-- footer section ends -->
+
+<script src="{% static 'app/js/script.js' %}"></script>
+</body>
+</html>

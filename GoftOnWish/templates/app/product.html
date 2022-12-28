@@ -1,0 +1,64 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="product" id="product" style="margin-top: 83px;">
+    <div class="search-container">
+
+        <input type="text" placeholder="Search gifts, and more …" id="search">
+        {% comment %} <button class="btn">search</button> {% endcomment %}
+        <i class="fa fa-search searchIcon" aria-hidden="true"></i>
+        
+    </div>
+    <h1 class="heading"><span>products</span></h1>
+    <div id="msg"></div>
+    <div class="box-container" id="contain">
+
+        {% for product in products %}
+        <div class="box">
+            <span class="discount">-{{product.get_discount|floatformat:0}}%</span>
+            <a href={% url 'products' %}{{product.id}} style="cursor:default;"><img src={{product.imageUrl}} alt="" ></a>
+            <h3>{{product.name}}</h3>
+            <div class="stars">
+                <h1>{{product.star}}<i class="fas fa-star"></i></h1>
+                <p class='star'></p>
+                
+                
+            </div>
+            <div class="price"> ₹{{product.d_price|floatformat:2}} <span> ₹{{product.o_price|floatformat:2}} </span> </div>
+            <div class="quantity">
+                <span>quantity : </span>
+                <input type="number" min="1" max="1000" value="1" readonly>
+                <span> /{{product.unit}} </span>
+            </div>
+            <a href="#" class="btn">add to cart</a>
+        </div>
+          
+        {% endfor %}
+        
+    </div>
+</section>
+<script>
+    let filter_input = document.getElementById('search')
+
+    filter_input.addEventListener('keyup', () =>{
+        let filter_value = filter_input.value.toUpperCase();
+        let container = document.getElementById('contain')
+        let box = container.querySelectorAll('div.box');
+
+    for(let i =0; i < box.length; i++){
+        let n = box[i].getElementsByTagName('h3')[0];
+        if(n.innerHTML.toUpperCase().indexOf(filter_value) > -1){
+            box[i].style.display = '';
+        }
+        else{
+            box[i].style.display = 'none';
+        }
+    }
+    
+    })
+    
+
+    
+</script>
+{% endblock content %}

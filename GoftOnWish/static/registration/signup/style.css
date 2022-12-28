@@ -1,0 +1,97 @@
+
+
+html,
+body {
+  height: 100%;
+  /* background-image: linear-gradient(to right,#fff9fe,#ffd4d4); */
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #fff9fe;
+  
+}
+
+.signup,li{
+  list-style-type: none;
+  text-decoration: none;
+  margin-right: 5px;
+  padding: 2px;
+  color: #808080;
+}
+
+  
+form{
+    width: 357px;
+    height: 100%;
+
+}
+
+@media (max-width:750px) {
+    form{
+        width: 70%;
+    }
+    
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn{
+    background-color: #ffbcbc;
+}
+img{
+  width: 150px;
+  margin-bottom: 10px;
+}
+.form-signup .form-floating:focus-within {
+  z-index: 2;
+}
+.form-signup .fname {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signup .lname {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signup input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signup input[type="tel"]{
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signup .pswd {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signup .cpswd {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.tmsg{
+  color: red;
+  text-align: center;
+}
+.cmsg ul li{
+  text-align: left;
+  color: red;
+}
