@@ -13,6 +13,28 @@
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <!---->
+    <script type="text/javascript"> 
+        var user ='{{request.user}}'
+  
+        function getToken(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      var csrftoken = getToken('csrftoken');
+      </script>
+
 
 </head>
 <body>
@@ -38,7 +60,7 @@
 
         {% if request.user.is_authenticated %}
             <div class="icons">
-                <a href="{% url 'cart' %}" class="fas fa-shopping-cart"></a>
+                <a href="{% url 'cart' %}" class="fas fa-shopping-cart"><sup style="font-size: 1.9rem;padding-left:.1rem;">{{order.get_cart_items}}</sup></a>
                 <a href="{% url 'profile' %}" class="fas fa-user-circle"></a>
                 <a href={% url 'logout' %} class="fa-solid fa-right-from-bracket"></a>
             </div>
@@ -105,5 +127,7 @@
 <!-- footer section ends -->
 
 <script src="{% static 'app/js/script.js' %}"></script>
+<script src="{% static 'app/js/cart.js' %}"></script>
+
 </body>
 </html>

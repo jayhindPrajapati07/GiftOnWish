@@ -1,8 +1,9 @@
+import json
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate, logout
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm
-from app.models import Customer,Product
+from app.models import Customer,Product,OrderItem,Order,ShippingAddress
 
 # Password reset import
 from django.core.mail import send_mail, BadHeaderError
@@ -15,10 +16,19 @@ from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.conf import settings
 
+def cart(req):
+    if req.user.is_authenticated:
+        customer = req.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        return order
+        
+        
+
 # Create your views here.
 def Index(request):
-    products = Product.objects.order_by("?")[:12]
-    return render(request,"app/index.html",{'products':products})
+    products = Product.objects.all()[:12]
+    order= cart(request)
+    return render(request,"app/index.html",{'products':products ,'order':order })
 
 def Login_view(request):
     user = request.user
@@ -72,17 +82,20 @@ def Signup_view(request):
 def Profile(request):
     user_id = request.user.id
     customer = Customer.objects.get(pk=user_id)
-    return render(request, 'app/profile.html', {'customer':customer})
+    order= cart(request)
+    return render(request, 'app/profile.html', {'customer':customer,'order':order})
 
 def Products(request):
     products = Product.objects.all()
     starcount = Product.star
-    return render(request, 'app/product.html', {'products':products,'starcount':starcount})
+    order= cart(request)
+    return render(request, 'app/product.html', {'products':products,'starcount':starcount,'order':order})
 
 def Product_detail(request,id):
     product_id = id
     product = Product.objects.get(pk=product_id)
-    return render(request, 'app/product_detail.html', {'product':product})
+    order= cart(request)
+    return render(request, 'app/product_detail.html', {'product':product,'order':order})
 
 def Category(request):
     birthday = Product.objects.filter(category='Birthday').all()
@@ -91,16 +104,16 @@ def Category(request):
     toys = Product.objects.filter(category='Toys').all()
     
 
-
-    context = {'birthday':birthday, 'cakes':cakes, 'flowers': flowers, 'toys':toys,}
-
-    return render(request, 'app/category.html', context)
+    order= cart(request)
+    context = {'birthday':birthday, 'cakes':cakes, 'flowers': flowers, 'toys':toys,'order':order}
+    
+    return render(request, 'app/category.html', context,)
 
 def Categories_view(request, name):
     category  = name
     p = Product.objects.filter(category=category).all()
-
-    return render(request, 'app/categories_specific.html', {'products':p, 'category':category})
+    order= cart(request)
+    return render(request, 'app/categories_specific.html', {'products':p, 'category':category,'order':order})
 
 def Contact(request):
 
@@ -118,15 +131,48 @@ def Contact(request):
             return HttpResponse('Please Login to send query!!')
     else:
         form = QueriesForm()
-    return render(request,'app/contact.html', {'contact_form':form})
+    order= cart(request)
+    return render(request,'app/contact.html', {'contact_form':form,'order':order})
 
 def About(request):
+    order= cart(request)
+    return render(request, 'app/about.html', {'order':order})
 
-    return render(request, 'app/about.html', {})
 
 def Cart_view(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer =customer,complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+     
 
-    return render(request, 'app/cart.html', {})
+    context={'items':items,'order':order,'cartItems':cartItems}
+    return render(request, 'app/cart.html', context)
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId=data['productId']
+    action = data['action']
+    print('Action: ',action)
+    print('ProductId: ',productId)
+    
+    customer =request.user
+    product = Product.objects.get(id=productId)
+    order,created = Order.objects.get_or_create(customer=customer,complete=False)
+    
+    orderItem,created = OrderItem.objects.get_or_create(order=order,product=product)
+    
+    if action =='add':
+        orderItem.quantity=(orderItem.quantity + 1)
+    elif action =='remove':
+        orderItem.quantity = (orderItem.quantity -1)
+    orderItem.save()
+    
+    if orderItem.quantity <=0:
+        orderItem.delete()
+        
+    return JsonResponse("Item was added",safe=False)
 
 
 def newsletter(request):

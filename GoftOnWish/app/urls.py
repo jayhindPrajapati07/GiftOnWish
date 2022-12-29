@@ -16,4 +16,5 @@ urlpatterns = [
     path('cart/', views.Cart_view, name='cart'),
     path('newsletter/', views.newsletter, name='newsletter'),
     path("password_reset/", views.password_reset_request, name="password_reset"),
+    path('update_item/',views.updateItem,name="update_item"),
 ]

@@ -91,6 +91,8 @@ section{
 
 .header-2{
   background-image: linear-gradient(to right,#fff9fe,#ffd4d4);
+  position:sticky;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -719,10 +721,11 @@ section{
   border-radius: .5rem;
 }
 .cart .box-container .box-2 .row i{
-  background-color: var(--green);
+  background-color: var(--black);
   padding: .5rem;
   color: #fff;
   border-radius: .5rem;
+  cursor: pointer;
 }
 .cart .box-container .box-2 .row p span{
   margin: 0 1rem;
@@ -899,6 +902,21 @@ section{
     font-size: 2rem;
     margin-left: .5rem;
   }
+  .contact .box-container {
+    flex-direction: column;
+    
+  }
+  .contact .box-container .info,.contact .box-container .email-form{
+    width: 100%;
+  }
+
+  .brand{
+    width: 70%;
+    margin:0 7% ;
+    margin-left: 15%;
+  }
+
+
 
 }
 
