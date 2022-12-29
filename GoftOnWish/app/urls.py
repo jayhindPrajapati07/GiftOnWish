@@ -14,4 +14,6 @@ urlpatterns = [
     path('contact/', views.Contact, name='contact'),
     path('about/', views.About, name='about'),
     path('cart/', views.Cart_view, name='cart'),
+    path('newsletter/', views.newsletter, name='newsletter'),
+    path("password_reset/", views.password_reset_request, name="password_reset"),
 ]

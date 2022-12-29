@@ -1,8 +1,20 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
-from app.forms import SignupForm, AccountAuthenticationForm
+from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm
 from app.models import Customer,Product
+
+# Password reset import
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib.auth.forms import PasswordResetForm
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.contrib import messages
+from django.conf import settings
+
 # Create your views here.
 def Index(request):
     products = Product.objects.order_by("?")[:12]
@@ -92,7 +104,22 @@ def Categories_view(request, name):
 
 def Contact(request):
 
-    return render(request,'app/contact.html', {})
+    context ={}
+    if request.POST:
+        if request.user.is_authenticated:
+
+            form = QueriesForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return render(request, 'app/sent.html')
+            else:
+                context['contact_form'] =form
+        else:
+            return HttpResponse('Please Login to send query!!')
+    else:
+        form = QueriesForm()
+    return render(request,'app/contact.html', {'contact_form':form})
+
 def About(request):
 
     return render(request, 'app/about.html', {})
@@ -100,6 +127,50 @@ def About(request):
 def Cart_view(request):
 
     return render(request, 'app/cart.html', {})
+
+
+def newsletter(request):
+    if request.POST:
+        form = NewsletterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'app/newsletter.html')
+
+
+
+
+def password_reset_request(request):
+    if request.method == 'POST':
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = Customer.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = 'Password Reset Requested'
+                    email_template_name = 'password/password_reset_email.txt'
+                    c = {
+                        "email":user.email,
+                        'domain':'127.0.0.1:8000',
+                        'site_name': 'GiftOnWish',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, c)
+                    admin_email = settings.EMAIL_HOST_USER
+                    try:
+                        send_mail(subject, email, admin_email , [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    return redirect ("password_reset_done")
+            
+            messages.error(request, 'Email is not registered!')
+            return redirect('password_reset')
+
+    password_reset_form = PasswordResetForm()
+    return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
 
 
     

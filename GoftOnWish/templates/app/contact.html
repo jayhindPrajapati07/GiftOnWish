@@ -24,8 +24,8 @@
             <h1 class="heading">Email <span>form</span></h1>
             <hr>
             <p>we want to hear from you. please fill out above form</p>
-            <form action="">
-
+            <form action="" method="post">
+                {% csrf_token %}
                 <div class="inputBox">
                     <input type="text" placeholder="Name"><br>
                     <input type="email" placeholder="Email"><br>
@@ -33,7 +33,20 @@
                 </div>
         
                 <textarea placeholder="Message" name="" id="" cols="30" rows="10"></textarea>
-        
+                
+                <!-- {% for field in contact_form %}
+                <p>
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+                    </p>
+                {% endfor %}
+                {% if contact_form.non_field_errors %}
+                <div style="color: red">
+                    <p>{{contact_form.non_field_errors | striptags}}</p>
+                </div>
+                {% endif %} -->
+                
                 <input type="submit" value="send message" class="btn">
         
             </form>

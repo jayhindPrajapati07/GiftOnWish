@@ -103,3 +103,21 @@ class Product(models.Model):
         except:
             url = ''
         return url
+    
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=60,)
+    consent =models.BooleanField(default=True)
+
+    def __str__(self) -> str:
+        return self.email
+
+
+class Queries(models.Model):
+    name = models.CharField(max_length=60)
+    email = models.EmailField(max_length=60)
+    subject = models.CharField(max_length=60)
+    message = models.TextField()
+    is_resolved = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.name
