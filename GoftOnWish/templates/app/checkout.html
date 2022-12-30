@@ -46,11 +46,11 @@
                     {% endfor %}
 
                     <div class="payment">
-                        <h3 class="heading">Payment</h3>
+                        <h3 class="heading">Payment: </h3>
                         <button class="btn">Payment</button>
                     </div>
                 {% else %}
-                    <form action="{% url 'checkout' %}" method="post">
+                    <form action="{% url 'shippindaddress' %}" method="post">
                         {% csrf_token %}
                             <div>
                             <input class="inputBox" name="address" type="text" placeholder="Address" required>

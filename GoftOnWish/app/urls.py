@@ -18,5 +18,5 @@ urlpatterns = [
     path("password_reset/", views.password_reset_request, name="password_reset"),
     path('update_item/',views.updateItem,name="update_item"),
     path('checkout/', views.checkout, name='checkout'),
-    # path('shippindaddress/', views.shippingAddress, name='shippindaddress'),
+    path('shippindaddress/', views.shippingAddress, name='shippindaddress'),
 ]

@@ -57,14 +57,3 @@ class QueriesForm(forms.ModelForm):
         model = Queries
         fields = ('name', 'email', 'subject', 'message',)
         
-class ShippingAddressForm(forms.ModelForm):
-    address = forms.CharField(max_length=200)
-    landmark = forms.CharField(max_length=50)
-    city = forms.CharField(max_length=50)
-    state = forms.CharField(max_length=50)
-    zipcode = forms.CharField(max_length=50)
-
-
-    class Meta:
-        model = ShippingAddress
-        fields = ('address','landmark','city', 'state', 'zipcode')

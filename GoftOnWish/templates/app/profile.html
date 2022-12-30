@@ -10,20 +10,28 @@
         <hr>
         <div class="field">
             <h1>Personal Information</h1>
-            <p>First Name: </p>
-            <input type="text" value="{{customer.first_name}}" readonly>
-
-            <p>Last Name: </p>
-            <input type="text" value="{{customer.last_name}}" readonly>
-
-            <p>Email: </p>
-            <input type="email" value="{{customer.email}}" readonly>
-            <p>Mobile No. : </p>
-            <input type="text" value="{{customer.mobile}}" readonly>
+            <p>First Name: {{customer.first_name}}</p>
+            <br>
+            <p>Last Name: {{customer.last_name}}</p>
+            <br>
+            <p>Email: {{customer.email}}</p>
+            
+            <p>Mobile No. : {{customer.mobile}}</p>
+            
         </div>
         <br><hr><br>
         <div class="field">
             <h1>Address</h1>
+            {% if address %}
+                    {% for addr in address %}
+                    <p>Address: {{addr.address}}</p>
+                    <p>Landmark: {{addr.landmark}}</p>
+                    <p>City: {{addr.city}}</p>
+                    <p>State: {{addr.state}}</p>
+                    <p>zipcode: {{addr.zipcode}}</p>
+                    <p>Country: India</p>
+                    {% endfor %}
+            {% endif %}
         </div>
         <br><hr><br>
         <div class="field">
