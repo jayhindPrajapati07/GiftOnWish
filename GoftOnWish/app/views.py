@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse,JsonResponse
-from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm
+from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm,ShippingAddressForm
 from app.models import Customer,Product,OrderItem,Order,ShippingAddress
 
 # Password reset import
@@ -149,6 +149,46 @@ def Cart_view(request):
 
     context={'items':items,'order':order,'cartItems':cartItems}
     return render(request, 'app/cart.html', context)
+
+
+# def shippingAddress(request):
+#     context={}
+#     if request.user.is_authenticated:
+#         customer = request.user
+        
+#         if request.POST:
+#             form = ShippingAddressForm(request.POST)
+#             if form.is_valid():
+#                 form.save()
+    
+#     else:
+#         return redirect('login')
+    
+#     return redirect('checkout')
+
+def checkout(request):
+    context={}
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItem = order.get_cart_items
+        if request.POST:
+            form = ShippingAddressForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('checkout')
+                
+        address = ShippingAddress.objects.filter(customer=customer)
+        
+    else:
+        return redirect('login')
+
+    context ={'items':items, 'order':order, 'cartItem':cartItem,'address':address}
+
+    return render(request, 'app/checkout.html', context)
+
+
 
 def updateItem(request):
     data = json.loads(request.body)

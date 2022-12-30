@@ -1,0 +1,77 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block content %}
+<script src="{% static 'app/js/cities.js' %}"></script>
+    <section class="checkout" style="margin: 90px 0; min-height: 100vh;">
+        <div class="box-container">
+        <div class="box-1">
+            <a href={% url 'cart' %} class="btn"><i class="fa-solid fa-arrow-left-long" style="margin-right: .8rem;"></i>Back to cart</a>
+            <h3 class="heading">Order Summary</h3>
+            <div class="items">
+                <div class="row" style="font-weight: bold;">
+                    <p>product</p>
+                    <p>name</p>
+                    <p>price</p>
+                    <p>quantity</p>
+                </div>
+                <hr>
+                {% for item in items %}
+                <div class="row">
+                    <img src={{item.product.imageUrl}} alt="" height="50rem" width="50rem">
+                    <p>{{item.product.name}}</p>
+                    <p>₹{{item.product.d_price|floatformat:2}}</p>
+                    <p><span>x</span>{{item.quantity}}</p>
+                </div>
+                {% endfor %}
+                
+            </div>
+            <div class="end">
+                <p><span>Items:</span> {{order.get_cart_item}}</p>
+                <p><span>Order total:</span> ₹{{order.get_cart_total}}</p>
+            </div>
+            
+        </div>
+        <div class="box-2">
+                <div class="shipping-form">
+                <h3 class="heading">Shipping Address</h3>
+
+                {% if address %}
+                    {% for addr in address %}
+                    <p>Address: {{addr.address}}</p>
+                    <p>Landmark: {{addr.landmark}}</p>
+                    <p>City: {{addr.city}}</p>
+                    <p>State: {{addr.state}}</p>
+                    <p>zipcode: {{addr.zipcode}}</p>
+                    <p>Country: India</p>
+                    {% endfor %}
+
+                    <div class="payment">
+                        <h3 class="heading">Payment</h3>
+                        <button class="btn">Payment</button>
+                    </div>
+                {% else %}
+                    <form action="{% url 'checkout' %}" method="post">
+                        {% csrf_token %}
+                            <div>
+                            <input class="inputBox" name="address" type="text" placeholder="Address" required>
+                            <input class="inputBox" name="landmark" type="text" placeholder="Landmark" required>
+
+                            <input class="inputBox" name="zipcode" type="number" placeholder="Zip code" required>
+
+
+                            <select class="inputBox " onchange="print_city('state', this.selectedIndex);" id="sts" name ="state" class="form-control" required></select>
+                            <select class="inputBox" id ="state" class="form-control" name="city" required></select>
+                            <script>print_state("sts");</script>
+ 
+                            <input class="inputBox" type="text" placeholder="India" readonly>
+                            <input type="submit" class="btn" value="Submit">
+                            </div>
+                    </form>
+                {% endif %}
+                </div>
+                
+        </div>
+        </div>
+        
+    </section>
+{% endblock content %}
