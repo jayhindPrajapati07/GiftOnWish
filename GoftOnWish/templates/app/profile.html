@@ -8,15 +8,28 @@
     <h1 class="heading">Account <span>Information</span> </h1>
     <div class="box-container">
         <hr>
-        <div class="field">
-            <h1>Personal Information</h1>
-            <p>First Name: {{customer.first_name}}</p>
-            <br>
-            <p>Last Name: {{customer.last_name}}</p>
-            <br>
-            <p>Email: {{customer.email}}</p>
+        <div class="field ">
             
-            <p>Mobile No. : {{customer.mobile}}</p>
+            
+            <h1>Personal Information</h1>
+            <div class="perinfo">
+                <div>
+                    <img src={% static 'images/man.png' %} alt="">
+            </div>
+            <div>
+                <p>Name: {{customer.first_name}} {{customer.last_name}}</p>
+                <br>
+                
+                <p>Email: {{customer.email}}</p>
+                <br>
+                <p>Mobile No. : {{customer.mobile}}</p>
+                <br>
+                <p>join date: {{customer.date_joined}}</p>
+                <p>last login: {{customer.last_login}}</p>
+            </div>
+            </div>
+            
+            
             
         </div>
         <br><hr><br>
@@ -34,8 +47,38 @@
             {% endif %}
         </div>
         <br><hr><br>
-        <div class="field">
-            <h1>Order History</h1>
+        <div class="order field">
+            <h1 class="">Order <span>History</span></h1>
+            <div class="tb">
+                <div class="r">
+                    <p>order id: </p>
+                    <p>Trasaction id: </p>
+                    <p>Status: </p>
+                    <p>delivered: </p>
+                </div>
+
+                <div class="r">
+                    {% for i in order_detail %}
+                    <p>{{i.id}}</p>
+                    <p>{{i.transaction_id}}</p>
+                    <p>
+                        {% if i.complete %}
+                        complete
+                        {% else %}
+                        pending
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% if i.delivery %}
+                        yes
+                        {% else %}
+                        not yet
+                        {% endif %}
+                    </p>
+                    {% endfor %}
+                    
+                </div>
+            </div>
         </div>
     </div>
 </section>

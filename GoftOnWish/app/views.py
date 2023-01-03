@@ -80,12 +80,17 @@ def Signup_view(request):
     return render(request, 'registration/signup.html', {'signup_form':form})
 
 def Profile(request):
-    user_id = request.user.id
-    customer = Customer.objects.get(pk=user_id)
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        customer = Customer.objects.get(pk=user_id)
+        
+        
+        address = ShippingAddress.objects.filter(customer=customer)
+        order_detail = Order.objects.filter(customer=customer, complete=True)
+    else:
+        return redirect('login')
     order= cart(request)
-    
-    address = ShippingAddress.objects.filter(customer=customer)
-    return render(request, 'app/profile.html', {'customer':customer,'order':order,'address':address})
+    return render(request, 'app/profile.html', {'customer':customer,'order':order,'address':address,'order_detail':order_detail})
 
 def Products(request):
     products = Product.objects.all()
@@ -149,8 +154,8 @@ def Cart_view(request):
         cartItems = order.get_cart_items
      
 
-    context={'items':items,'order':order,'cartItems':cartItems}
-    return render(request, 'app/cart.html', context)
+        context={'items':items,'order':order,'cartItems':cartItems}
+        return render(request, 'app/cart.html', context)
 
 def shippingAddress(request):
     if request.user.is_authenticated:
@@ -186,7 +191,8 @@ def checkout(request):
 
     return render(request, 'app/checkout.html', context)
 
-
+def payment(request):
+    return render(request,'app/payment.html',{})
 
 def updateItem(request):
     data = json.loads(request.body)

@@ -19,4 +19,5 @@ urlpatterns = [
     path('update_item/',views.updateItem,name="update_item"),
     path('checkout/', views.checkout, name='checkout'),
     path('shippindaddress/', views.shippingAddress, name='shippindaddress'),
+    path('payment/',views.payment,name='payment'),
 ]

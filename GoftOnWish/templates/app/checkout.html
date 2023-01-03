@@ -47,7 +47,7 @@
 
                     <div class="payment">
                         <h3 class="heading">Payment: </h3>
-                        <button class="btn">Payment</button>
+                        <a href="{% url 'payment' %}" class="btn">Payment</a>
                     </div>
                 {% else %}
                     <form action="{% url 'shippindaddress' %}" method="post">
