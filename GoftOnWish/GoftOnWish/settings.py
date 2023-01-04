@@ -139,3 +139,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'giftonwish07@gmail.com'
 # EMAIL_HOST_PASSWORD ='ycjknqviumuyralc'
+
+# Stripe Payment Interface
+STRIPE_SECRET_KEY = 'sk_test_51MM6TrSCGkJLolZJj6LecuV7O2cvwueemvpMVtIigmEUNSBh8fsxAwPzoemgmcdr4J8qFWLF440JWlO65xU8py5S00B6MOivcC'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51MM6TrSCGkJLolZJNr8KHy8hYeNZIvCLOkuRAvfo9nyoglkkW5IRGYiNUwZ89wvV0M4iyCnp2d84WbJsXNeU6QTm00jY0MLjWE'

@@ -1,3 +1,4 @@
+import datetime
 import json
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate, logout
@@ -15,6 +16,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.conf import settings
+
+import stripe
 
 def cart(req):
     if req.user.is_authenticated:
@@ -181,18 +184,39 @@ def checkout(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItem = order.get_cart_items
-        
         address = ShippingAddress.objects.filter(customer=customer)
+        amount = int(order.get_cart_total*100)
+        key =settings.STRIPE_PUBLISHABLE_KEY
+        
         
     else:
         return redirect('login')
 
-    context ={'items':items, 'order':order, 'cartItem':cartItem,'address':address}
+    context ={'items':items, 'order':order, 'cartItem':cartItem,'address':address,'amount':amount,'key':key}
 
     return render(request, 'app/checkout.html', context)
 
-def payment(request):
-    return render(request,'app/payment.html',{})
+stripe.api_key=settings.STRIPE_SECRET_KEY
+
+def process_payment(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            customer = request.user
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            amount = int(order.get_cart_total * 100)
+
+            stripe.PaymentIntent.create(
+                amount=amount,
+                currency="inr",
+                payment_method_types=["card"],
+            )
+
+            order.transaction_id = datetime.datetime.now().timestamp()
+            order.complete = True
+            order.save()
+
+    return render(request, 'payment/payment_status.html', {'order':order})
+
 
 def updateItem(request):
     data = json.loads(request.body)

@@ -533,6 +533,7 @@ section{
 .profile .box-container .field .tb{
   display: flex;
   justify-content: space-between;
+  gap: 5rem;
 }
 
 
@@ -864,6 +865,9 @@ section{
 .checkout .box-container .box-2 .payment .heading{
   font-size: 2.7rem;
 }
+.checkout .box-container .box-2 .payment .stripe{
+  font-size: .9rem;
+}
 
 
 
@@ -948,7 +952,7 @@ section{
     background:var(--back);
     padding:1rem 2rem;
     display: none;
-    margin-top: 81px;
+    margin-top: 63px;
   }
 
   .header-2 .navbar.active{
@@ -1005,26 +1009,11 @@ section{
     font-size: 3rem;
   }
 
-  .header-1{
-    flex-flow: column;
-  }
-
-  .header-1 .search-box-container{
-    width:100%;
-    margin-top: 2rem;
-  }
-
   .logo{
     font-size: 4rem;
   }
 
-  .deal .content .count-down .box h3{
-    font-size: 4rem;
-  }
-
-  .deal .content .count-down .box span{
-    font-size: 1.5rem;
-  }
+  
   .product .search-container .searchIcon{
     font-size: 2rem;
     margin-left: .5rem;
@@ -1041,6 +1030,22 @@ section{
     width: 70%;
     margin:0 7% ;
     margin-left: 15%;
+  }
+  .cart .box-container .box-2{
+    width: 100%;
+  }
+  .cart .box-container .box-2 .row{
+    font-size: 1.5rem;
+    gap: .5rem;
+  }
+  .cart .box-container .box-2 .row img{
+    width: 90%;
+    height: 90%;
+  }
+  .cart .box-container .box-2 .row i{
+    padding: 0;
+    margin: 0;
+    
   }
 
   .checkout .box-container{

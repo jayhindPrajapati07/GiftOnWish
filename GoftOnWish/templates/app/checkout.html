@@ -46,8 +46,21 @@
                     {% endfor %}
 
                     <div class="payment">
-                        <h3 class="heading">Payment: </h3>
-                        <a href="{% url 'payment' %}" class="btn">Payment</a>
+                        <h3 class="heading">Payment Invoice</h3>
+                        <p><span>Amount to Pay:</span> ₹{{order.get_cart_total}}</p>
+                        <br>
+                        <form action={% url 'process_payment' %} method="post">
+                            {% csrf_token %}
+                            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button "
+                            data-key = "{{key}}"
+                            data-description="Pay To GiftOnWish"
+                            data-amount="{{amount}}"
+                            data-locale="auto"
+                            data-currency="inr"
+                            >
+                        </script>
+                        </form>
+                        <p class="stripe"> powered by STRIPE ...</p>
                     </div>
                 {% else %}
                     <form action="{% url 'shippindaddress' %}" method="post">

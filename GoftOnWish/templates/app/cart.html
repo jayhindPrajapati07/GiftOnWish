@@ -29,7 +29,7 @@
                     <img src="{{item.product.imageUrl}}" alt="" height="100rem" width="100rem">
                     <p>{{item.product.name}}</p>
                     <p>₹{{item.product.d_price|floatformat:2}}</p>
-                    <p>
+                    <p class="itemupdate">
                         <a ><i class="fa-solid fa-plus update-cart" data-action="add" data-product="{{item.product.id}}"></i></a>
                         <span>{{item.quantity}}</span>
                         <a ><i class="fa-solid fa-minus update-cart" data-action="remove" data-product="{{item.product.id}}"></i></a>
