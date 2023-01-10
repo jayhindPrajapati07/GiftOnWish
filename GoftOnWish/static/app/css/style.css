@@ -25,7 +25,9 @@ body{
   background:var(--gren);
   color:#fff;
 }
-
+hr{
+  color: var(--black);
+}
 html{
   font-size: 62.5%;
   overflow-x: hidden;
@@ -703,7 +705,21 @@ section{
   color:#333;
   padding:.5rem 0;
 }
-
+.product_s .box-container .info-box .stars{
+  margin: 1rem 0;
+}
+.product_s .box-container .info-box .stars i{
+  font-size: 1.7rem;
+  color: gold;
+}
+.product_s .box-container .info-box .stars p{
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+}
+.product_s .box-container .info-box .stars span{
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
 .product_s .box-container .info-box .price span{
   font-size: 1.5rem;
   color:#999;
@@ -722,7 +738,7 @@ section{
 .product_s .box-container .info-box .gift{
   font-size: .9rem;
 }
-.product_s .box-container .info-box .groco span{
+.product_s .box-container .info-box .gift span{
   color: var(--green);
 } 
 .product_s .box-container .info-box .quantity{
@@ -759,6 +775,116 @@ section{
   display: block;
   width: 70%;
 }
+
+/* review */
+.product_rv .box_container .heading{
+  font-size: 2.5rem;
+  text-align: start;
+  padding: 2rem 0;
+}
+.product_rv .box_container p{
+  font-size: 1.7rem;
+}
+.product_rv .box_container .reviews{
+  margin: 3rem 0;
+}
+.product_rv .box_container .review{
+  display: flex;
+  gap: 2rem;
+  font-size: 1.6rem;
+  margin-top: 2rem ;
+  border: 1px solid var(--dark);
+  border-radius: .8rem;
+  padding: 2rem 1rem;
+  box-shadow: var(--shadow);
+}
+.product_rv .box_container .review .profile{
+  width: 30%;
+  text-align: center;
+}
+.product_rv .box_container .review .profile img{
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1px solid var(--dark);
+}
+.product_rv .box_container .review .profile p{
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+.product_rv .box_container .review .text p span{
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+.product_rv .box_container .review .text .stars{
+  color: gold;
+}
+
+.product_rv .box_container .review .text div{
+  margin: 1rem 0;
+}
+.product_rv .box_container .review_form{
+  font-size: 1.7rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.product_rv .box_container .review_form .input{
+  padding: 1.5rem;
+  font-size: 1.7rem;
+  background-color: #f5f5f5;
+  width: 100%;
+  margin: 1rem 0;
+  border: 1px solid var(--dark);
+  border-radius: .5rem;
+}
+
+.rate > input{
+display: none;
+text-align: center;
+}
+
+.rate{
+display: inline-block;;
+border: 0;
+}
+
+.rate > label{
+float: right;
+}
+
+/* Showing the stars */
+.rate > label:before{
+display: inline-block;
+font-size: 2.5rem;
+font-family: FontAwesome;
+content: "\f005";
+margin:0;
+padding:0.3rem .2rem;
+cursor: pointer;
+}
+
+/* Half star */
+.rate .half:before{
+content: "\f089";
+position: absolute;
+padding-right: 0;
+}
+
+/* Click and hover */
+input:checked ~ label, label:hover ~ label{
+color: gold;
+}
+
+/* hover hightlight */
+input:checked + label:hover, input:checked ~ label:hover,input:checked ~ label:hover ~ label,
+label:hover ~ input:checked ~ label{
+color: gold;
+}
+
+
 
 /* Contact page */
 .contact .box-container {
@@ -1101,6 +1227,10 @@ section{
   text-align: center;
   color: var(--black);
 }
+.about .box-container .head img{
+  width: 80%;
+  border-radius: 5%;
+}
 
 .about .box-container .body h2{
   font-size: 1.8rem;
@@ -1282,6 +1412,13 @@ section{
   }
   .checkout .box-container .box-1,.checkout .box-container .box-2{
     width: 100%;
+  }
+  .product_rv .box_container .review .text{
+    font-size: 50%;
+  }
+  .product_rv .box_container .review .profile img{
+    width: 70px;
+    height: 70px;
   }
 
 }

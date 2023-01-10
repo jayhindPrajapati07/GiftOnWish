@@ -42,7 +42,7 @@
                     <th>order id </th>
                     <th>Trasaction id </th>
                     <th>Status </th>
-                    <th>delivered </th>
+                    <th>delivery status </th>
                     <th>invoice </th>
                 </tr>
 
@@ -53,16 +53,16 @@
                     <td>{{i.transaction_id}}</td>
                     <td>
                         {% if i.complete %}
-                        complete
+                        completed
                         {% else %}
                         pending
                         {% endif %}
                     </td>
                     <td>
                         {% if i.delivered  %}
-                        yes
+                        delivered
                         {% else %}
-                        not yet
+                        shipped
                         {% endif %}
                     </td>
                     <td><a href={% url 'invoice' i.id %} >download</a></td>

@@ -3,9 +3,10 @@ import json
 from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse,JsonResponse
-from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm
-from app.models import Customer,Product,OrderItem,Order,ShippingAddress
-
+from app.forms import SignupForm, AccountAuthenticationForm,QueriesForm,NewsletterForm,ReviewForm
+from app.models import Customer,Product,OrderItem,Order,ShippingAddress,ProductReview
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 # Password reset import
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
@@ -16,7 +17,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.conf import settings
-
+from django.contrib.sites.shortcuts import get_current_site
+from app.utils import generate_token
 import stripe
 
 def cart(req):
@@ -57,6 +59,22 @@ def Logout_view(request):
 	logout(request)
 	return redirect("index") 
 
+def send_activation_email(user, request):
+    current_site = get_current_site(request)
+    email_subject = 'Activate your account'
+    email_body = render_to_string('registration/activate.txt', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': generate_token.make_token(user)
+    })
+
+    admin_email = settings.EMAIL_HOST_USER
+    try:
+        send_mail(email_subject, email_body, admin_email , [user.email], fail_silently=False)
+    except BadHeaderError:
+        return HttpResponse('Invalid header found.')
+
 def Signup_view(request):
     user = request.user
 
@@ -69,11 +87,9 @@ def Signup_view(request):
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email').lower()
-            raw_password = form.cleaned_data.get('password1')
-            customer = authenticate(email=email, password=raw_password)
-            
-            login(request, customer)
-            return redirect('index')
+            u = Customer.objects.get(email=email)
+            send_activation_email(u, request)
+            return render(request, 'registration/activation_email_sent.html', {})
         else:
             context['signup_form'] = form
 
@@ -104,8 +120,25 @@ def Products(request):
 def Product_detail(request,id):
     product_id = id
     product = Product.objects.get(pk=product_id)
+    review = ProductReview.objects.filter(product__id=id, status=True)
+
+    purchased =[]
+    if request.user.is_authenticated:
+
+        purchased = purchasedItem(request.user, id)
+
+    
     order= cart(request)
-    return render(request, 'app/product_detail.html', {'product':product,'order':order})
+    return render(request, 'app/product_detail.html', {'product':product,'order':order,'reviews':review, 'purchased':purchased})
+
+def purchasedItem(customer, id):
+        order = Order.objects.filter(customer=customer, complete=True, delivered=True)
+        items=[]
+        for i in range(len(order)):
+            a = order[i].orderitem_set.filter(product__id=id).values()
+            for j in range(len(a)):
+                items.append(a[j]['product_id'])
+        return items
 
 def Category(request):
     birthday = Product.objects.filter(category='Birthday').all()
@@ -300,5 +333,43 @@ def password_reset_request(request):
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
 
+def activate_user(request, uidb64, token):
 
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+
+        user = Customer.objects.get(pk=uid)
+
+    except Exception as e:
+        user = None
+
+    if user and generate_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+
+        return render(request, 'registration/verified.html', {})
+
+    return render(request, 'registration/activate_failed.html', {"user": user})
     
+    
+def submit_review(request, p_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        try:
+            reviews = ProductReview.objects.get(customer__id=request.user.id, product__id=p_id)
+            form = ReviewForm(request.POST, instance=reviews)
+            form.save()
+            messages.success(request, 'Thank you! Your review has been updated.')
+            return redirect(url)
+        except ProductReview.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = ProductReview()
+                data.subject = form.cleaned_data['subject']
+                data.rating = form.cleaned_data['rating']
+                data.review = form.cleaned_data['review']
+                data.product_id = p_id
+                data.customer_id = request.user.id
+                data.save()
+                messages.success(request, 'Thank you! Your review has been submitted.')
+                return redirect(url)
