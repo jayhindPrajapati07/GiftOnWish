@@ -2,9 +2,15 @@
 {% load static %}
 
 {% block content %}
-<section class="product" id="product" style="margin-top: 83px;" id="birthday">
+<section class="product" id="product" style="margin-top: 43px;" id="birthday">
 
     <h1 class="heading">$$ Shop by category $$</h1>
+    <ul>
+        <li><a href="{% url 'category' %}Birthday" class="btn">Birthday Special</a></li>
+        <li><a href="{% url 'category' %}Cakes" class="btn">Cakes</a></li>
+        <li><a href="{% url 'category' %}Flowers" class="btn">Flowers</a></li>
+        <li><a href="{% url 'category' %}Toys" class="btn">toys</a></li>
+    </ul>
     
     <h1 class="heading"><span>Birthday Special</span></h1>
     <div class="box-container">

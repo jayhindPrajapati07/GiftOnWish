@@ -19,30 +19,51 @@ window.onscroll = () =>{
 
 }
 
-// let countDate = new Date('june 1, 2021 00:00:00').getTime();
+// Slider
+let slideIndex = 0;
+showSlides();
 
-// function CountDown(){
+function showSlides() {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+    
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+  
+}
 
-//     let now = new Date().getTime();
-//     gap = countDate - now;
+// let slideIndex = 1;
+// showSlides(slideIndex);
+// function plusSlides(n) {
+//     showSlides(slideIndex += n);
+//   }
 
-//     let second = 1000;
-//     let minute = second * 60;
-//     let hour = minute * 60;
-//     let day = hour * 24;
-
-//     let d = Math.floor(gap / (day));
-//     let h = Math.floor((gap % (day)) / (hour));
-//     let m = Math.floor((gap % (hour)) / (minute));
-//     let s = Math.floor((gap % (minute)) / (second));
-
-//     document.getElementById('day').innerText = d;
-//     document.getElementById('hour').innerText = h;
-//     document.getElementById('minute').innerText = m;
-//     document.getElementById('second').innerText = s;
-
+// function currentSlide(n) {
+//   showSlides(slideIndex = n);
 // }
 
-// setInterval(function(){
-//     CountDown();
-// },1000)
+// function showSlides(n) {
+//   let i;
+//   let slides = document.getElementsByClassName("mySlides");
+//   let dots = document.getElementsByClassName("dot");
+//   if (n > slides.length) {slideIndex = 1}    
+//   if (n < 1) {slideIndex = slides.length}
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";  
+//   }
+//   for (i = 0; i < dots.length; i++) {
+//     dots[i].className = dots[i].className.replace(" active", "");
+//   }
+//   slides[slideIndex-1].style.display = "block";  
+//   dots[slideIndex-1].className += " active";
+// }

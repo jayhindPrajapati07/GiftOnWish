@@ -15,27 +15,68 @@
             <div class="perinfo">
                 <div>
                     <img src={% static 'images/man.png' %} alt="">
-            </div>
-            <div>
-                <p>Name: {{customer.first_name}} {{customer.last_name}}</p>
-                <br>
-                
-                <p>Email: {{customer.email}}</p>
-                <br>
-                <p>Mobile No. : {{customer.mobile}}</p>
-                <br>
-                <p>join date: {{customer.date_joined}}</p>
-                <p>last login: {{customer.last_login}}</p>
-            </div>
+                </div>
+                <div>
+                    <p>Name: {{customer.first_name}} {{customer.last_name}}</p>
+                    <br>
+                    
+                    <p>Email: {{customer.email}}</p>
+                    <br>
+                    <p>Mobile No. : {{customer.mobile}}</p>
+                    <br>
+                    <p>join date: {{customer.date_joined}}</p>
+                    <p>last login: {{customer.last_login}}</p>
+                </div>
             </div>
             
             
             
         </div>
         <br><hr><br>
+        
+        <div class="order field">
+            <h1 class="">Order <span>History</span></h1>
+            
+            <table class="tb">
+                <tr>
+                    <th>order id </th>
+                    <th>Trasaction id </th>
+                    <th>Status </th>
+                    <th>delivered </th>
+                    <th>invoice </th>
+                </tr>
+
+                
+                    {% for i in order_detail %}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{{i.transaction_id}}</td>
+                    <td>
+                        {% if i.complete %}
+                        complete
+                        {% else %}
+                        pending
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if i.delivered  %}
+                        yes
+                        {% else %}
+                        not yet
+                        {% endif %}
+                    </td>
+                    <td><a href={% url 'invoice' i.id %} >download</a></td>
+                </tr>
+                    {% endfor %}
+                    
+                
+            </table>
+        </div>
+        <br><hr><br>
         <div class="field">
-            <h1>Address</h1>
-            {% if address %}
+            <div class="addr">
+                {% if address %}
+                <h1>Address</h1>
                     {% for addr in address %}
                     <p>Address: {{addr.address}}</p>
                     <p>Landmark: {{addr.landmark}}</p>
@@ -44,42 +85,12 @@
                     <p>zipcode: {{addr.zipcode}}</p>
                     <p>Country: India</p>
                     {% endfor %}
-            {% endif %}
-        </div>
-        <br><hr><br>
-        <div class="order field">
-            <h1 class="">Order <span>History</span></h1>
-            <div class="tb">
-                <div class="r">
-                    <p>order id: </p>
-                    <p>Trasaction id: </p>
-                    <p>Status: </p>
-                    <p>delivered: </p>
-                </div>
-
-                <div class="r">
-                    {% for i in order_detail %}
-                    <p>{{i.id}}</p>
-                    <p>{{i.transaction_id}}</p>
-                    <p>
-                        {% if i.complete %}
-                        complete
-                        {% else %}
-                        pending
-                        {% endif %}
-                    </p>
-                    <p>
-                        {% if i.delivery %}
-                        yes
-                        {% else %}
-                        not yet
-                        {% endif %}
-                    </p>
-                    {% endfor %}
-                    
-                </div>
+                {% endif %}
             </div>
+            
+            
         </div>
+        
     </div>
 </section>
 

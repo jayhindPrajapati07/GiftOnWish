@@ -203,8 +203,10 @@ def process_payment(request):
         if request.method == 'POST':
             customer = request.user
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            items = order.orderitem_set.all()
             amount = int(order.get_cart_total * 100)
-
+            address = ShippingAddress.objects.filter(customer=customer).values()
+            
             stripe.PaymentIntent.create(
                 amount=amount,
                 currency="inr",
@@ -213,9 +215,21 @@ def process_payment(request):
 
             order.transaction_id = datetime.datetime.now().timestamp()
             order.complete = True
+            order.date_completed = datetime.date.today()
             order.save()
 
-    return render(request, 'payment/payment_status.html', {'order':order})
+    return render(request, 'payment/payment_status.html', {'order':order ,'customer':customer,'address':address, 'items':items})
+
+def invoice(request, id):
+    order_id = id
+    if request.user.is_authenticated:
+        customer = request.user
+        order= Order.objects.get(pk=order_id)
+        items = order.orderitem_set.all()
+        address = ShippingAddress.objects.filter(customer=customer).values()
+
+
+    return render(request, 'payment/invoice.html', {'order':order, 'address':address, 'customer':customer, 'items':items})
 
 
 def updateItem(request):
