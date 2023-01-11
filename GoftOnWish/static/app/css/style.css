@@ -138,6 +138,7 @@ section{
   border-radius: 10px;
 }
 
+
 .header-2{
   background-image: linear-gradient(to right,#fff9fe,#ffd4d4);
   position:sticky;
@@ -155,20 +156,34 @@ section{
   top:0; left: 0; right:0;
   z-index: 10000;
 }
-
 .header-2 .navbar a{
-  padding:.5rem 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+.header-2 .navbar a{
+  padding:.5rem 1rem;
+  margin: 1rem;
   font-size: 2rem;
-  /* border-radius: .5rem; */
+  
   color:var(--black);
 }
 
-.header-2 .navbar a:hover{
-  /* background:var(--btn); */
-  color:#e800d8;
-  border-bottom: #ff9e9e 3px solid;
-  border-radius: .5rem;
-  
+.header-2 .navbar a::before{
+  content:'';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #e800d8;
+  border-radius: 4px;
+  scale: 0.1;
+  transform-origin: right;
+  transition: scale 0.37s;
+}
+.header-2 .navbar a:hover::before{
+  scale: 1;
+  transform-origin: left;
 }
 
 .header-2 .icons a{
@@ -177,9 +192,18 @@ section{
   padding-left: 1rem;
 }
 
+.header-2 .icons a span{
+  
+  font-size: 1.9rem;
+  
+  color:var(--black);
+  
+}
+
 .header-2 .icons a:hover{
   
   color:#e800d8;
+  
 }
 
 .italic{
@@ -187,7 +211,46 @@ section{
   text-transform: none;
 }
 
+body{
+  position: relative;
+}
+.messages{
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  /* border: 1px solid #fff; */
+  color: var(--black);
+  background-color:#fff9fe ;
+  position: absolute;
+  left: 0; 
+  right: 0;
+  top: 100px; 
+  margin-left: auto; 
+  margin-right: auto;
+  width: fit-content;
+  z-index: 2;
+}
 
+
+.msg{
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--green);
+  list-style: none;
+  width: 90%;
+}
+.messages span{
+  font-size: 1.7rem;
+  color: gray;
+  cursor: pointer;
+}
+
+
+.center{
+  text-align: center !important;
+}
 
 /*  */
 #menu-bar{
@@ -1350,6 +1413,23 @@ color: gold;
   .newsletter h3{
     font-size: 2.2rem;
   }
+  .checkout .box-container{
+    flex-direction: column;
+}
+.checkout .box-container .box-1 , .checkout .box-container .box-2{
+    width: 100%;
+}
+.checkout .box-container .box-1 .items .row{
+    font-size: 35%;
+    padding-left: 1.5rem;
+}
+.checkout .box-container .box-1 img{
+    width: 75%;
+    height: 75%;
+}
+.profile .box-container .field .tb{
+  width:90%;
+}
 
 }
 
@@ -1419,6 +1499,12 @@ color: gold;
   .product_rv .box_container .review .profile img{
     width: 70px;
     height: 70px;
+  }
+  .profile .box-container .field{
+    font-size: 1.7rem;
+  }
+  .profile .box-container .field .tb{
+    font-size: 1.3rem;
   }
 
 }

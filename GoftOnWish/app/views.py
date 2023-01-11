@@ -49,6 +49,7 @@ def Login_view(request):
 
             if user:
                 login(request, user)
+                messages.success(request, 'Logged in Sucessfully!!')
                 return redirect("index")
     else:
         form = AccountAuthenticationForm()
@@ -56,8 +57,9 @@ def Login_view(request):
     return render(request, 'registration/login.html', {'login_form':form})
    
 def Logout_view(request):
-	logout(request)
-	return redirect("index") 
+    logout(request)
+    messages.success(request,"Logged out Sucessfully!!")
+    return redirect("index") 
 
 def send_activation_email(user, request):
     current_site = get_current_site(request)
@@ -89,7 +91,9 @@ def Signup_view(request):
             email = form.cleaned_data.get('email').lower()
             u = Customer.objects.get(email=email)
             send_activation_email(u, request)
-            return render(request, 'registration/activation_email_sent.html', {})
+            url = request.META.get('HTTP_REFERER')
+            messages.success(request, 'Please verify your email by clicking on link we have sent on your email!!')
+            return redirect(url)
         else:
             context['signup_form'] = form
 
@@ -159,7 +163,7 @@ def Categories_view(request, name):
     return render(request, 'app/categories_specific.html', {'products':p, 'category':category,'order':order})
 
 def Contact(request):
-
+    url = request.META.get('HTTP_REFERER')
     context ={}
     if request.POST:
         if request.user.is_authenticated:
@@ -167,11 +171,13 @@ def Contact(request):
             form = QueriesForm(request.POST)
             if form.is_valid():
                 form.save()
-                return render(request, 'app/sent.html')
+                messages.success(request, 'we have recieved your query. We will try our best to solve your query. Thank you!!')
+                return redirect(url)
             else:
                 context['contact_form'] =form
         else:
-            return HttpResponse('Please Login to send query!!')
+            messages.error(request, 'Please login to send query!!')
+            form = QueriesForm()
     else:
         form = QueriesForm()
     order= cart(request)
@@ -291,11 +297,16 @@ def updateItem(request):
 
 
 def newsletter(request):
+    url = request.META.get('HTTP_REFERER')
     if request.POST:
         form = NewsletterForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'app/newsletter.html')
+            messages.success(request, 'You have sucessfully subscribed for Newsletter.')
+            return redirect(url)
+        else:
+            messages.error(request, 'Something went wrong!')
+            return redirect(url)
 
 
 
@@ -324,8 +335,11 @@ def password_reset_request(request):
                     try:
                         send_mail(subject, email, admin_email , [user.email], fail_silently=False)
                     except BadHeaderError:
-                        return HttpResponse('Invalid header found.')
-                    return redirect ("password_reset_done")
+                        messages.error(request, 'Something went wrong!!')
+                    
+                    url = request.META.get('HTTP_REFERER')
+                    messages.success(request,"We've emailed your instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.If you don't receive an email, please make sure you've entered the email address you registered with, and check your spam folder.")
+                    return redirect (url)
             
             messages.error(request, 'Email is not registered!')
             return redirect('password_reset')
@@ -347,7 +361,8 @@ def activate_user(request, uidb64, token):
         user.is_active = True
         user.save()
 
-        return render(request, 'registration/verified.html', {})
+        messages.success(request, 'Your email is now Verified!! Now you can login into your account.')
+        return redirect('login')
 
     return render(request, 'registration/activate_failed.html', {"user": user})
     
@@ -371,5 +386,5 @@ def submit_review(request, p_id):
                 data.product_id = p_id
                 data.customer_id = request.user.id
                 data.save()
-                messages.success(request, 'Thank you! Your review has been submitted.')
+                # messages.success(request, 'Thank you! Your review has been submitted.')
                 return redirect(url)

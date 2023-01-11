@@ -12,7 +12,24 @@
     <title>Login</title>
 </head>
 <body>
+  {% if messages %}
+    <div class="messages" id="messages">
+    <ul class="msg">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    <span><i class="fa-solid fa-xmark" id="cross" onclick="rm()"></i></span>
+    </div>
+  {% endif %}
+    <script>
+      const messages = document.getElementById('messages')
+      function rm(){
+          messages.style.display = 'none';
+      }
+    </script>
 
+    <section class="form-login w-100 m-auto">
     <form method="post"> 
       {% csrf_token %}
       <a href=""><img src="{% static 'images/logo1.png' %}" alt="logo" srcset=""></a>
@@ -51,6 +68,7 @@
 
         <p class="mt-1 mb-3 text-muted">&copy; 2022-2023</p>
       </form>
+    </section>
     
 </body>
 </html>

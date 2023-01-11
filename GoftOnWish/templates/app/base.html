@@ -61,9 +61,10 @@
 
         {% if request.user.is_authenticated %}
             <div class="icons">
-                <a href="{% url 'cart' %}" class="fas fa-shopping-cart"><sup style="font-size: 1.9rem;padding-left:.1rem;">{{order.get_cart_items}}</sup></a>
+                <a href="{% url 'cart' %}" class="fas fa-shopping-cart"><sup style="font-size: 1.9rem;">{{order.get_cart_items}}</sup></a>
                 <a href="{% url 'profile' %}" class="fas fa-user-circle"></a>
                 <a href={% url 'logout' %} class="fa-solid fa-right-from-bracket"></a>
+
             </div>
         {% else %}
             <div>
@@ -76,6 +77,26 @@
 </header>
 
 <!-- header section ends -->
+
+<br>
+{% if messages %}
+<div class="messages" id="messages">
+    <ul class="msg">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    <span><i class="fa-solid fa-xmark" id="cross" onclick="rm()"></i></span>
+</div>
+{% endif %}
+<script>
+    const messages = document.getElementById('messages')
+    function rm(){
+        messages.style.display = 'none';
+    }
+    // document.onscroll = rm()
+</script>
+
 {% block content %}
 {% endblock content %}
 
