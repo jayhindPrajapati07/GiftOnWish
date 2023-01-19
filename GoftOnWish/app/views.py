@@ -213,7 +213,7 @@ def shippingAddress(request):
                 add1=ShippingAddress.objects.create(customer=customer, address=addr,landmark=landmark,zipcode=zipcode,city=city,state=state)
                 
                 add1.save()
-                
+                messages.success(request, 'Address added sucessfully!!')
         return redirect('checkout')
 
 def checkout(request):

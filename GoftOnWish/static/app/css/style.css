@@ -60,6 +60,7 @@ html{
 [data-title] {
   position: relative;
 }
+
 @keyframes slideInFromRight {
   0% {
     transform: translateX(100%);
@@ -134,7 +135,7 @@ section{
 .brand:hover{
   padding: 5px;
   border-bottom: #ff61f4 solid  5px;
-  border-right: #ff61f4 solid  5px;
+  /* border-right: #ff61f4 solid  5px; */
   border-radius: 10px;
 }
 

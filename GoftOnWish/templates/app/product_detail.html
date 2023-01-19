@@ -55,6 +55,7 @@
                 <div class="reviews">
                     <h1 class="heading" style="text-align:center;">Product <span>Reviews</span> </h1>
                     <hr>
+                    {% if reviews %}
                     {% for review in reviews %}
                     <div class="review">
                         <div class="profile">
@@ -81,6 +82,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <p>No reviews available.</p>
+                    {% endif %}
         
                 </div>
                 <hr>

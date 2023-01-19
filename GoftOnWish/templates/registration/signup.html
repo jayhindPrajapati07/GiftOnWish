@@ -8,6 +8,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+  <!-- font awesome link  -->
+    
+  <script src="https://kit.fontawesome.com/ae3273139f.js" crossorigin="anonymous"></script>
+  
   <link rel="stylesheet" href="{% static 'registration/signup/style.css' %}">
   <title>Sign Up</title>
 </head>
@@ -32,7 +36,7 @@
 
   <form class="form-signup" method="post">
     {% csrf_token %}
-    <a href=""><img src="{% static 'images/logo1.png' %}" alt="logo" srcset=""></a>
+    <a href="{% url 'index' %}"><img src="{% static 'images/logo1.png' %}" alt="logo" srcset=""></a>
       <br>
     <h1 class="h3 mb-3 fw-normal">Please Sign Up</h1>
 
@@ -54,7 +58,7 @@
       </div>
       <div class="tmsg"></div>
       <div class="form-floating">
-        <input type="password" class="form-control pswd" id="floatingPassword" placeholder="Password" name="password1" required>
+        <input type="password" class="form-control pswd" id="floatingPassword" placeholder="Password" name="password1" required><i class="fa-solid fa-eye" id="pswdtoggle"></i>
         <label for="floatingPassword">Password</label>
       </div>
       <div class="form-floating">
@@ -80,7 +84,7 @@
     <button class="w-100 btn btn-lg " type="submit">Sign Up</button>
     <li>Already a customer? <a class="signup" href="{% url 'login' %}" class="fp">Sign in</a></li>
 
-    <p class="mt-1 mb-3 text-muted">&copy; 2022-2023</p>
+    <p class="mt-1 mb-3 text-muted">&copy; 2022-2023 GiftOnWish</p>
   </form>
   
   <!--JS-->

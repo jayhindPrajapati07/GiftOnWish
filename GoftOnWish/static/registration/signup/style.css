@@ -1,4 +1,8 @@
-
+:root{
+  
+  --dark:#251749;
+  --shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+}
 
 html,
 body {
@@ -42,7 +46,7 @@ body{
   align-items: center;
   padding: .5rem;
   border: 1px solid #fff;
-  background-color:#dfd ;
+  background-color:#fff9fe ;
   position: absolute;
   left: 0; 
   right: 0;
@@ -84,6 +88,27 @@ img{
   width: 150px;
   margin-bottom: 10px;
 }
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.form-signup{
+  animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
 .form-signup .form-floating:focus-within {
   z-index: 2;
 }
@@ -217,6 +242,18 @@ body{
     padding: 15px;
     text-align: center;
 }
+
+#pswdtoggle {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  z-index: 200;
+  top: 22px;
+  right: 10px;
+  cursor: pointer;
+  color: var(--dark);
+}
+
 @media(max-width: 600px){
     
     .form-signup{

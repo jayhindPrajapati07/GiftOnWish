@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -143,3 +144,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Stripe Payment Interface
 STRIPE_SECRET_KEY = 'sk_test_51MM6TrSCGkJLolZJj6LecuV7O2cvwueemvpMVtIigmEUNSBh8fsxAwPzoemgmcdr4J8qFWLF440JWlO65xU8py5S00B6MOivcC'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51MM6TrSCGkJLolZJNr8KHy8hYeNZIvCLOkuRAvfo9nyoglkkW5IRGYiNUwZ89wvV0M4iyCnp2d84WbJsXNeU6QTm00jY0MLjWE'
+
+SESSION_EXPIRE_SECONDS = 860400
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = '/login'
