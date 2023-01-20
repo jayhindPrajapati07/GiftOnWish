@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+# import environ
+
+# env = environ.Env()
+# reading .env file
+# environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = Path.joinpath(BASE_DIR,'templates')
@@ -34,6 +40,8 @@ AUTH_USER_MODEL = 'app.Customer'
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
 ]
+
+X_FRAME_OPTIONS='SAMEORIGIN'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,3 +158,4 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_51MM6TrSCGkJLolZJNr8KHy8hYeNZIvCLOkuRAvfo9nyog
 SESSION_EXPIRE_SECONDS = 860400
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = '/login'
+

@@ -216,6 +216,18 @@ def shippingAddress(request):
                 messages.success(request, 'Address added sucessfully!!')
         return redirect('checkout')
 
+def change_addrs(request):
+    customer = request.user
+    url = request.META.get('HTTP_REFERER')
+    if customer.is_authenticated:
+        instance=ShippingAddress.objects.get(customer=customer)
+        instance.delete()
+        messages.success(request, 'Please add new address!!')
+        return redirect(url)
+    else:
+        messages.error(request, 'Please login to proceed!')
+        return redirect('login')
+
 def checkout(request):
     context={}
     if request.user.is_authenticated:
@@ -238,6 +250,7 @@ def checkout(request):
 stripe.api_key=settings.STRIPE_SECRET_KEY
 
 def process_payment(request):
+    current_site = get_current_site(request)
     if request.user.is_authenticated:
         if request.method == 'POST':
             customer = request.user
@@ -256,6 +269,19 @@ def process_payment(request):
             order.complete = True
             order.date_completed = datetime.date.today()
             order.save()
+            
+            email_subject = 'Order confirmed!'
+            email_body = render_to_string('payment/confirm.txt', {
+                'user': customer,
+                'domain': current_site,
+                'order':order
+            })
+
+            admin_email = settings.EMAIL_HOST_USER
+            try:
+                send_mail(email_subject, email_body, admin_email , [customer.email], fail_silently=False)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
 
     return render(request, 'payment/payment_status.html', {'order':order ,'customer':customer,'address':address, 'items':items})
 

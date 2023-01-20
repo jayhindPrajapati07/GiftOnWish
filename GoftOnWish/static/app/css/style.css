@@ -1431,6 +1431,12 @@ color: gold;
 .profile .box-container .field .tb{
   width:90%;
 }
+.product .caturl{
+  display: grid;
+  grid-template-columns: 1rem ,1rem;
+  text-align: center;
+
+}
 
 }
 

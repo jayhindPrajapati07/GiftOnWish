@@ -19,7 +19,8 @@
         <a href={% url 'invoice' order.id %} class="btn">click here to view invoice</a>
     </div>
 
-    
+    <audio src="{% static 'payment_sound/sound.mp3' %}" id="my_audio" ></audio>
+
     <style>
         .c {
             text-align: center;
@@ -42,6 +43,10 @@
             height: auto;
         }
     </style>
+    <script>
 
+        document.getElementById("my_audio").play();
+
+    </script>
 </body>
 </html>

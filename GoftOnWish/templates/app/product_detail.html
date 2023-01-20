@@ -112,7 +112,7 @@
                                         <input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
                                     </div>
                                     <div>
-                                    <input type="text" name="subject" placeholder="Subject" class="input">
+                                    <input type="text" name="subject" placeholder="Subject" class="input" required>
                                     <textarea name="review" id="" cols="30" rows="8" class="input" placeholder="Write your review"></textarea>
                                     </div>
                                     <input type="submit" class="btn" value="submit review">
@@ -127,7 +127,7 @@
                 {% else %}
                 <div class="center" style="margin-top: 7rem;">
                     <h1 class="heading center" >Write a <span>Review</span></h1>
-                    <p>Login to write review.</p><br> <a class="btn" href="{% url 'login' %}">Buy now</a>
+                    <p>Login to write review.</p><br> <a class="btn" href="{% url 'login' %}">Login</a>
                 </div>
                 {% endif %}
         

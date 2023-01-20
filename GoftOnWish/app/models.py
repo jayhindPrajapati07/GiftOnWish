@@ -188,6 +188,9 @@ class OrderItem(models.Model):
         total = self.product.d_price * self.quantity
         return total
     
+    def __str__(self):
+        return str(self.product)
+    
     
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.SET_NULL,blank=True,null=True)
@@ -199,6 +202,5 @@ class ShippingAddress(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.address
-    
+        return str(self.customer)
     

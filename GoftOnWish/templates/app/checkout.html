@@ -43,8 +43,9 @@
                     <p>State: {{addr.state}}</p>
                     <p>zipcode: {{addr.zipcode}}</p>
                     <p>Country: India</p>
+                    <a href={% url 'change_address' %} class="btn" style="padding: 1rem;">change address</a>
                     {% endfor %}
-
+                    
                     <div class="payment">
                         <h3 class="heading">Payment Invoice</h3>
                         <p><span>Amount to Pay:</span> ₹{{order.get_cart_total}}</p>
