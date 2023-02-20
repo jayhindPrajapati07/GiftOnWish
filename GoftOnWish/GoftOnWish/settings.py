@@ -11,12 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-
-# import environ
-
-# env = environ.Env()
-# reading .env file
-# environ.Env.read_env()
+import environ
+env = environ.Env()
+#reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +27,7 @@ MEDIA_DIR = Path.joinpath(BASE_DIR,'media')
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s3ioi%bs4_(k$8y&jc7k^)b_kcqwej9(*s4jwiiw+9(osm(bz9'
+SECRET_KEY = env('django_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'giftonwish7',
         'USER':'root',
-        'PASSWORD':'jayhind100%',
+        'PASSWORD':env('db_passworsd'),
         'HOST':'localhost',
         'PORT':'3306',
     }
@@ -142,18 +140,18 @@ MEDIA_ROOT = MEDIA_DIR
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # gmail smtp
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'giftonwish07@gmail.com'
-# EMAIL_HOST_PASSWORD ='ycjknqviumuyralc'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'giftonwish07@gmail.com'
+EMAIL_HOST_PASSWORD =env('email_passwd')
 
 # Stripe Payment Interface
-STRIPE_SECRET_KEY = 'sk_test_51MM6TrSCGkJLolZJj6LecuV7O2cvwueemvpMVtIigmEUNSBh8fsxAwPzoemgmcdr4J8qFWLF440JWlO65xU8py5S00B6MOivcC'
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51MM6TrSCGkJLolZJNr8KHy8hYeNZIvCLOkuRAvfo9nyoglkkW5IRGYiNUwZ89wvV0M4iyCnp2d84WbJsXNeU6QTm00jY0MLjWE'
+STRIPE_SECRET_KEY = env('stripe_secret_key')
+STRIPE_PUBLISHABLE_KEY = env('stripe_public_key')
 
 SESSION_EXPIRE_SECONDS = 860400
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True

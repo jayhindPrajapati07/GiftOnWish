@@ -338,6 +338,7 @@ def newsletter(request):
 
 
 def password_reset_request(request):
+    current_site = get_current_site(request)
     if request.method == 'POST':
         password_reset_form = PasswordResetForm(request.POST)
         if password_reset_form.is_valid():
@@ -349,7 +350,7 @@ def password_reset_request(request):
                     email_template_name = 'password/password_reset_email.txt'
                     c = {
                         "email":user.email,
-                        'domain':'127.0.0.1:8000',
+                        'domain':current_site,
                         'site_name': 'GiftOnWish',
                         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
                         "user": user,

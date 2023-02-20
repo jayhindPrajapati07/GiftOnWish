@@ -6,7 +6,7 @@
             <a href={% url 'index' %} style="margin-bottom: 2rem;" class="btn"><i class="fa-solid fa-arrow-left-long"></i> Continue Shopping</a>
 
             {% if order.get_cart_items == 0 %}
-            <h1 class="heading">sorry!! The cart is empty</h1>
+            <h1 class="heading">OOPS!! The cart is empty</h1>
             <img class="cart-img" src={% static 'images/empty-cart.png' %} alt="">
             
             {% else %}
